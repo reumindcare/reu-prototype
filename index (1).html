@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RE-U Mindcare</title>
+    <!-- Tailwind CSS CDN - Ensures styles are loaded without local setup -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Baloo 2 for headers, Inter for body text -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN - Provides scalable vector icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/lucide.js"></script>
+
+    <style>
+        /* Custom Tailwind Color Variables for consistent theme */
+        :root {
+            /* New Palette Mapping */
+            --color-primary-bg: #E0F7FA; /* Light Sky Blue */
+            --color-accent: #10B981;     /* Emerald Green */
+            --color-secondary-accent: #FDE68A; /* Soft Yellow */
+            --color-text-dark: #374151;  /* Dark Gray */
+            --color-light-bg: #F9FAFB;   /* Off White */
+            --color-alert-soft: #FCA5A5; /* Soft Red for warnings */
+
+            /* Mapped to Tailwind-like names for consistent usage */
+            --color-sky-50: var(--color-primary-bg); /* Primary background */
+            --color-sky-100: #c8effc; /* Slightly darker than sky-50, for light elements like user chat bubbles or light accents */
+            --color-sky-200: #a0e0f7; /* For borders, lighter accents */
+            --color-sky-600: #0284c7; /* A complementary darker blue for header/main buttons */
+            --color-sky-700: #0369a1; /* Even darker blue for strong text/hover states */
+            --color-sky-800: #025a8e; /* Very dark blue for headings */
+
+            --color-emerald-50: #e6fdf6; /* Lighter emerald, for cards/backgrounds */
+            --color-emerald-100: #bfefdd; /* Slightly darker emerald for AI chat bubbles */
+            --color-emerald-500: var(--color-accent); /* Direct map to accent */
+            --color-emerald-600: #0e9a6c; /* Darker emerald for buttons/hover */
+            --color-emerald-700: #0c7b56; /* Even darker emerald for text/headings */
+            --color-emerald-800: #0a6646; /* Very dark emerald for headings */
+
+
+            --color-red-50: var(--color-alert-soft); /* Direct map to alert soft */
+            --color-red-200: #f57f7f; /* Stronger red for danger */
+            --color-red-600: #dc2626; /* Standard red for strong alerts */
+            --color-red-700: #b91c1c;
+            --color-red-800: #991b1b;
+
+            --color-yellow-500: var(--color-secondary-accent); /* Direct map to secondary accent */
+            --color-yellow-400: var(--color-secondary-accent); /* Using same for consistency, if a different shade is needed, define separately */
+
+            --color-neutral-50: var(--color-light-bg); /* Direct map to light backgrounds */
+            --color-neutral-100: #edf2f7; /* Slightly darker off-white for distinctions */
+            --color-neutral-200: #e2e8f0;
+            --color-neutral-300: #cbd5e1;
+            --color-neutral-400: #a0aec0;
+            --color-neutral-500: #718096;
+            --color-neutral-600: #4a5568;
+            --color-neutral-700: #2d3748;
+            --color-neutral-800: var(--color-text-dark); /* Direct map to dark gray text */
+            --color-neutral-900: #1a202c;
+
+            --color-indigo-600: #4f46e5; /* Keeping previous indigo as it wasn't specified to change */
+            --color-indigo-700: #4338ca;
+        }
+
+        /* Applying custom colors to Tailwind classes */
+        .bg-sky-50 { background-color: var(--color-sky-50); }
+        .bg-sky-100 { background-color: var(--color-sky-100); }
+        .bg-sky-200 { background-color: var(--color-sky-200); }
+        .bg-sky-600 { background-color: var(--color-sky-600); }
+        .text-sky-600 { color: var(--color-sky-600); }
+        .text-sky-700 { color: var(--color-sky-700); }
+        .text-sky-800 { color: var(--color-sky-800); }
+
+        .bg-emerald-50 { background-color: var(--color-emerald-50); }
+        .bg-emerald-100 { background-color: var(--color-emerald-100); }
+        .bg-emerald-500 { background-color: var(--color-emerald-500); }
+        .bg-emerald-600 { background-color: var(--color-emerald-600); }
+        .text-emerald-600 { color: var(--color-emerald-600); }
+        .text-emerald-700 { color: var(--color-emerald-700); }
+        .text-emerald-800 { color: var(--color-emerald-800); }
+
+        .bg-red-50 { background-color: var(--color-red-50); }
+        .border-red-200 { border-color: var(--color-red-200); }
+        .text-red-600 { color: var(--color-red-600); }
+        .text-red-700 { color: var(--color-red-700); }
+        .text-red-800 { color: var(--color-red-800); }
+
+        .bg-yellow-500 { background-color: var(--color-yellow-500); }
+        .bg-yellow-400 { background-color: var(--color-yellow-400); }
+        .bg-indigo-600 { background-color: var(--color-indigo-600); }
+        .hover\:bg-indigo-700:hover { background-color: var(--color-indigo-700); }
+
+        .text-neutral-50 { color: var(--color-neutral-50); }
+        .text-neutral-100 { color: var(--color-neutral-100); }
+        .text-neutral-200 { color: var(--color-neutral-200); }
+        .text-neutral-300 { color: var(--color-neutral-300); }
+        .text-neutral-400 { color: var(--color-neutral-400); }
+        .text-neutral-500 { color: var(--color-neutral-500); }
+        .text-neutral-600 { color: var(--color-neutral-600); }
+        .text-neutral-700 { color: var(--color-neutral-700); }
+        .text-neutral-800 { color: var(--color-neutral-800); }
+        .text-neutral-900 { color: var(--color-neutral-900); }
+        .bg-neutral-50 { background-color: var(--color-neutral-50); }
+        .bg-neutral-100 { background-color: var(--color-neutral-100); }
+        .bg-neutral-200 { background-color: var(--color-neutral-200); }
+        .border-neutral-200 { border-color: var(--color-neutral-200); }
+        .border-neutral-300 { border-color: var(--color-neutral-300); }
+
+
+        body {
+            font-family: 'Inter', sans-serif; /* Default body font */
+            background-color: var(--color-neutral-100);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .app-container {
+            max-width: 500px; /* Max width for mobile-first design */
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+            overflow: hidden; /* Ensures rounded corners clip content */
+            display: flex;
+            flex-direction: column;
+            min-height: 700px; /* Minimum height for better appearance */
+            position: relative;
+            animation: fadeIn 0.8s ease-out; /* Overall app fade-in */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Global Page Section Styles - Controls visibility and transitions of main app parts */
+        .full-page-section {
+            width: 100%;
+            height: 100%;
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            flex-grow: 1; /* Allows content to expand */
+            background-color: white;
+            position: absolute; /* Enables stacking for transitions */
+            top: 0;
+            left: 0;
+            overflow-y: auto; /* Scrollable if content overflows */
+        }
+
+        .full-page-section.active {
+            display: flex; /* Show active page */
+            animation: slideInFromRight 0.5s ease-out; /* Page transition animation */
+            z-index: 5; /* Ensures active page is on top */
+        }
+
+        /* No animation on initial load for welcome/main app to prevent flicker */
+        #welcome-page.active, #main-app.active {
+            animation: none;
+            display: flex;
+            z-index: 5;
+        }
+
+        /* Animation for internal content sections (like switching tabs within Spiritual Guidance) */
+        @keyframes slideInFromRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+
+        /* Main App Header - Appears on all main content pages */
+        .main-app-header {
+            background-color: var(--color-sky-600);
+            color: white;
+            padding: 1.25rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: sticky; /* Keeps header at top during scroll */
+            top: 0;
+            z-index: 100;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            flex-shrink: 0; /* Prevents shrinking */
+        }
+
+        .main-app-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Baloo 2', cursive; /* Header font */
+        }
+
+        .main-app-header .icon-btn {
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .main-app-header .icon-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Bottom Navigation Bar - Sticky at the bottom of the visible app area */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            border-top: 1px solid var(--color-neutral-200);
+            padding: 0.75rem 0;
+            position: sticky; /* Sticky to the bottom of its parent */
+            bottom: 0;
+            width: 100%;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.08);
+            z-index: 20;
+            flex-shrink: 0; /* Prevents it from shrinking */
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--color-neutral-500);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 0.5rem;
+            border-radius: 10px;
+        }
+
+        .nav-item.active {
+            color: var(--color-sky-600);
+            background-color: var(--color-sky-50);
+            transform: translateY(-2px);
+        }
+
+        .nav-item:hover:not(.active) {
+            color: var(--color-neutral-700);
+            background-color: var(--color-neutral-100);
+            transform: translateY(-1px);
+        }
+
+        .nav-item svg {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 4px;
+        }
+
+        /* Main Content Area for scrolling page content */
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto; /* Allows content to scroll independently */
+            padding: 1rem;
+            padding-bottom: 60px; /* Space for sticky bottom nav */
+        }
+
+        /* Individual Page Content Sections within main-app's content-area */
+        .page-content {
+            display: none; /* Hidden by default */
+        }
+
+        .page-content.active {
+            display: block; /* Show active section */
+            animation: slideInFromRight 0.5s ease-out; /* Apply internal page transition */
+        }
+
+
+        /* General Card Styles - Consistent look for content blocks */
+        .card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--color-neutral-200);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+        }
+
+        /* --- Page 0: Welcome & Login Screen --- */
+        #welcome-page {
+            background: linear-gradient(135deg, var(--color-sky-100), var(--color-emerald-100)); /* Calming blue-green gradient */
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            min-height: 100%;
+            padding-bottom: 2rem;
+        }
+
+        /* Logo styling */
+        #welcome-page .logo-image {
+            max-width: 80%; /* Adjust size as needed */
+            height: auto;
+            margin-bottom: 1.5rem; /* Space below logo */
+            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.1)); /* Soft shadow for the image */
+        }
+
+        #welcome-page .tagline {
+            font-size: 1.2rem;
+            color: var(--color-sky-700);
+            margin-bottom: 3rem;
+            font-weight: 500;
+        }
+
+        .login-btn {
+            background-color: var(--color-sky-600);
+            color: white;
+            padding: 0.9rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .login-btn:hover {
+            background-color: var(--color-sky-700);
+            transform: translateY(-2px);
+        }
+
+        .login-btn-google {
+            background-color: white;
+            color: var(--color-neutral-800);
+            border: 1px solid var(--color-neutral-300);
+        }
+
+        .login-btn-google:hover {
+            background-color: var(--color-neutral-100);
+        }
+
+        .guest-btn {
+            color: var(--color-emerald-700);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: background-color 0.2s ease;
+        }
+
+        .guest-btn:hover {
+            background-color: rgba(6, 182, 212, 0.1);
+        }
+
+
+        /* --- Page 1: Video Chat Room --- */
+        .video-chat-card {
+            background-color: var(--color-emerald-50);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--color-emerald-100);
+        }
+
+        .mood-tag-button {
+            background-color: var(--color-sky-100);
+            color: var(--color-sky-700);
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid var(--color-sky-200);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .mood-tag-button.selected {
+            background-color: var(--color-sky-600);
+            color: white;
+            border-color: var(--color-sky-700);
+        }
+
+        .mood-tag-button:hover:not(.selected) {
+            background-color: var(--color-sky-200);
+        }
+
+        .floating-action-button {
+            position: fixed; /* Fixed relative to viewport */
+            bottom: 90px; /* Above bottom nav */
+            right: 20px;
+            background-color: var(--color-yellow-500);
+            color: var(--color-neutral-800);
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            z-index: 30;
+        }
+
+        .floating-action-button:hover {
+            background-color: var(--color-yellow-400);
+            transform: scale(1.05);
+        }
+
+        /* --- Page 2: Spiritual Guidance --- */
+        .spiritual-background-placeholder {
+            background-image: url('https://placehold.co/500x300/a7e6f0/ffffff?text=Calm+Nature+Scene');
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            padding: 1rem;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            margin-bottom: 1.5rem;
+        }
+
+        .video-card-item {
+            background-color: var(--color-neutral-50);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-neutral-200);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .video-card-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .video-thumbnail {
+            width: 100px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            background-color: var(--color-neutral-300);
+            flex-shrink: 0;
+        }
+
+        .video-info h3 {
+            font-weight: 600;
+            color: var(--color-neutral-800);
+            font-size: 1rem;
+        }
+
+        .video-info p {
+            font-size: 0.85rem;
+            color: var(--color-neutral-600);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            font-weight: 500;
+            color: var(--color-neutral-600);
+            background-color: var(--color-neutral-100);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid transparent;
+            margin: 0 4px;
+        }
+
+        .tab-button.active {
+            background-color: var(--color-emerald-500);
+            color: white;
+            box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
+            border-color: var(--color-emerald-600);
+        }
+
+        .tab-button:hover:not(.active) {
+            background-color: var(--color-emerald-50);
+        }
+
+
+        /* --- Page 3: AI Chatbot (Jigyasa) --- */
+        #ai-chatbot-page {
+            display: flex; /* Ensure flex for chat layout */
+            flex-direction: column;
+            justify-content: space-between; /* Push input to bottom */
+            padding-bottom: 0; /* Remove default padding as input area has its own */
+            flex-grow: 1;
+        }
+
+        #ai-chat-messages {
+            flex-grow: 1; /* Allow chat messages to take available space */
+            display: flex;
+            flex-direction: column; /* Stack messages vertically */
+            overflow-y: auto; /* Enable scrolling for chat history */
+            background-color: var(--color-light-bg); /* Off white background for chat area */
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 0.5rem; /* Space between messages and input */
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); /* Soft inner shadow */
+        }
+
+        .chat-message {
+            max-width: 85%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 18px;
+            margin-bottom: 0.75rem;
+            word-wrap: break-word;
+            line-height: 1.5;
+            animation: fadeInMessage 0.3s ease-out; /* Message fade-in animation */
+        }
+
+        @keyframes fadeInMessage {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-message.user {
+            background-color: var(--color-sky-100); /* Light sky blue */
+            color: var(--color-text-dark); /* Dark gray text */
+            margin-left: auto; /* Align to right */
+            border-bottom-right-radius: 5px; /* Aesthetic corner */
+        }
+
+        .chat-message.ai {
+            background-color: var(--color-emerald-100); /* Light emerald green */
+            color: var(--color-text-dark); /* Dark gray text */
+            margin-right: auto; /* Align to left */
+            border-bottom-left-radius: 5px; /* Aesthetic corner */
+        }
+
+        .triage-options-container {
+            padding: 1rem; /* Padding for triage buttons container */
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.75rem; /* Gap between buttons */
+            transition: all 0.5s ease-out;
+        }
+
+        .triage-option-button {
+            background-color: var(--color-sky-600); /* Darker blue for buttons */
+            color: white;
+            padding: 0.75rem 1.2rem;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            border: none; /* No border for cleaner look */
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+            flex-grow: 1; /* Allow buttons to grow */
+            min-width: 120px; /* Minimum width for buttons */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .triage-option-button:hover {
+            background-color: var(--color-sky-700);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .triage-option-button.selected {
+            background-color: var(--color-sky-700);
+            color: white;
+            box-shadow: 0 2px 5px rgba(2, 132, 199, 0.3);
+            pointer-events: none; /* Disable click after selection */
+            opacity: 0.8;
+        }
+
+        .disclaimer-card {
+            background-color: var(--color-yellow-500); /* Soft yellow */
+            border-left: 5px solid #FBC02D; /* Darker yellow border */
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            color: var(--color-neutral-700); /* Dark gray text */
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .disclaimer-card.high-risk {
+            background-color: var(--color-red-50); /* Soft red */
+            border-left-color: var(--color-red-600); /* Standard red */
+            color: var(--color-red-800); /* Darker red text */
+            font-weight: 600;
+        }
+
+        /* Chat input area styling */
+        #chat-input-area {
+            display: flex;
+            padding: 1rem;
+            background-color: white;
+            border-top: 1px solid var(--color-neutral-200);
+            border-radius: 0 0 15px 15px; /* Rounded bottom corners */
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05); /* Soft shadow from top */
+        }
+
+        #chat-input-area input {
+            background-color: var(--color-neutral-50); /* Off white input field */
+            border-color: var(--color-neutral-200);
+        }
+        #chat-input-area input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.3); /* Custom focus ring */
+        }
+        #chat-input-area button {
+            flex-shrink: 0; /* Don't shrink the button */
+        }
+
+
+        /* --- Page 4: Community Forum --- */
+        .community-news-card {
+            background-color: var(--color-sky-100);
+            border-radius: 15px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-sky-200);
+        }
+
+        .community-news-card h3 {
+            font-weight: 600;
+            color: var(--color-sky-700);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .community-news-card p {
+            font-size: 0.9rem;
+            color: var(--color-neutral-700);
+        }
+
+        .category-button {
+            background-color: var(--color-emerald-50);
+            color: var(--color-emerald-700);
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid var(--color-emerald-100);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .category-button:hover {
+            background-color: var(--color-emerald-100);
+        }
+
+        .post-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-neutral-200);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .post-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--color-neutral-300);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--color-neutral-600);
+        }
+
+        .post-username {
+            font-weight: 600;
+            color: var(--color-neutral-800);
+        }
+
+        .post-time {
+            font-size: 0.8rem;
+            color: var(--color-neutral-500);
+        }
+
+        .post-content {
+            font-size: 0.95rem;
+            color: var(--color-neutral-700);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .post-actions button {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--color-neutral-500);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            transition: background-color 0.2s ease;
+        }
+
+        .post-actions button:hover {
+            background-color: var(--color-neutral-100);
+        }
+
+        .post-actions button svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* --- Page 5: Professional Counseling --- */
+        .counselor-card {
+            background-color: var(--color-emerald-50);
+            border-radius: 15px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--color-emerald-100);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .counselor-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .counselor-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: var(--color-emerald-100);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--color-emerald-700);
+            flex-shrink: 0;
+        }
+
+        .counselor-info h3 {
+            font-weight: 600;
+            color: var(--color-neutral-800);
+            margin-bottom: 0.25rem;
+            font-size: 1.15rem;
+        }
+
+        .counselor-info p {
+            font-size: 0.9rem;
+            color: var(--color-neutral-600);
+            margin-bottom: 0.5rem;
+        }
+
+        .counselor-info .specialties span {
+            display: inline-block;
+            background-color: var(--color-sky-100);
+            color: var(--color-sky-700);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 10px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-btn {
+            background-color: var(--color-emerald-500);
+            color: white;
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .book-btn:hover {
+            background-color: var(--color-emerald-600);
+        }
+
+        .emergency-contact-box {
+            background-color: var(--color-red-50);
+            border-left: 5px solid var(--color-red-600);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            color: var(--color-red-800);
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item {
+            background-color: var(--color-neutral-50);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid var(--color-neutral-200);
+            cursor: pointer;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: var(--color-sky-700);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            font-size: 0.9rem;
+            color: var(--color-neutral-700);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* --- Page 6: User Profile --- */
+        #user-profile-page {
+            background: linear-gradient(135deg, var(--color-sky-50), var(--color-emerald-50));
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            padding-top: 2rem;
+            padding-bottom: 70px; /* Space for bottom nav */
+        }
+
+        #user-profile-page .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--color-sky-200);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: var(--color-sky-700);
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #user-profile-page .profile-info p {
+            font-size: 1rem;
+            color: var(--color-neutral-700);
+            margin-bottom: 0.5rem;
+        }
+
+        #user-profile-page .profile-info p strong {
+            color: var(--color-neutral-800);
+        }
+
+        #user-profile-page .logout-btn {
+            background-color: var(--color-red-600);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: background-color 0.2s ease;
+        }
+
+        #user-profile-page .logout-btn:hover {
+            background-color: var(--color-red-700);
+        }
+
+
+        /* Animation for Chatbot typing dots */
+        .loading-dots::after {
+            content: '...';
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: bottom;
+            animation: ellipsis 1s steps(1, end) infinite;
+            width: 1.5em;
+        }
+
+        @keyframes ellipsis {
+            0% { content: ''; width: 0; }
+            33% { content: '.'; width: .5em; }
+            66% { content: '..'; width: 1em; }
+            100% { content: '...'; width: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Page 0: Welcome & Login (Initial view) -->
+        <div id="welcome-page" class="full-page-section active">
+            <!-- RE-U Mindcare Logo -->
+            <img src="WhatsApp Image 2025-06-30 at 1.04.39 PM.jpeg" alt="RE-U Mindcare Logo" class="logo-image">
+            <p class="tagline">Revive. Elevate. Unite.</p>
+
+            <button class="login-btn" onclick="simulateLogin('full')">
+                <i data-lucide="mail" class="w-5 h-5"></i> Login / Signup with Email
+            </button>
+            <button class="login-btn" onclick="simulateLogin('full')">
+                <i data-lucide="phone" class="w-5 h-5"></i> Login / Signup with Phone
+            </button>
+            <button class="login-btn login-btn-google" onclick="simulateLogin('full')">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_of_Google_G_Suite.svg" alt="Google Logo" class="w-5 h-5">
+                Continue with Google
+            </button>
+            <button class="guest-btn" onclick="simulateLogin('guest')">
+                Continue as Guest (Limited Features)
+            </button>
+        </div>
+
+        <!-- Main App Content (Pages 1-5, visible after login/guest entry) -->
+        <div id="main-app" class="full-page-section">
+            <!-- Dynamic Header -->
+            <div class="main-app-header">
+                <h2 id="current-page-title"></h2>
+                <div class="flex items-center gap-4">
+                    <button class="icon-btn" onclick="showPage('user-profile-page')">
+                        <i data-lucide="user" class="w-6 h-6 text-white"></i>
+                    </button>
+                    <button class="icon-btn">
+                        <i data-lucide="bell" class="w-6 h-6 text-white"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content Area for all pages -->
+            <div class="content-area">
+                <!-- Page 1: Video Chat Room -->
+                <div id="video-chat-room-page" class="page-content">
+                    <h1 class="text-3xl font-extrabold text-sky-800 mb-6 text-center">Join Support Circle</h1>
+
+                    <div class="video-chat-card">
+                        <h2 class="text-2xl font-bold text-sky-700 mb-4 flex items-center">
+                            <i data-lucide="users-round" class="mr-3 text-emerald-500" size="28"></i> Join Public Room
+                        </h2>
+                        <p class="text-neutral-600 mb-4">Connect anonymously with a community that understands. Share and receive support in a safe space.</p>
+
+                        <div class="mb-6">
+                            <label for="mood-select" class="block text-neutral-700 text-sm font-semibold mb-2">My current mood is:</label>
+                            <select
+                                id="mood-select"
+                                class="w-full p-3 border border-neutral-300 rounded-lg bg-neutral-50 text-neutral-800 focus:ring-sky-500 focus:border-sky-500 transition duration-200 shadow-sm"
+                            >
+                                <option value="">Select Mood</option>
+                                <option value="Anxious">Anxious</option>
+                                <option value="Depressed">Depressed</option>
+                                <option value="Grateful">Grateful</option>
+                                <option value="Stressed">Stressed</option>
+                                <option value="Calm">Calm</option>
+                                <option value="Hopeful">Hopeful</option>
+                            </select>
+                        </div>
+
+                        <button class="w-full bg-emerald-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                            <i data-lucide="video" size="20"></i>
+                            <span>Enter Public Room</span>
+                        </button>
+
+                        <div class="flex items-center justify-center mt-4 text-neutral-500 text-sm">
+                            <i data-lucide="shield-check" class="mr-2 text-emerald-500" size="18"></i>
+                            <span>Anonymous & Secure</span>
+                            <i data-lucide="gavel" class="ml-4 mr-2 text-neutral-400" size="18"></i>
+                            <span>Community Rules Apply</span>
+                        </div>
+                    </div>
+
+                    <div class="video-chat-card">
+                        <h2 class="text-2xl font-bold text-emerald-700 mb-4 flex items-center">
+                            <i data-lucide="link-2" class="mr-3 text-sky-500" size="28"></i> Create Private Room
+                        </h2>
+                        <p class="text-neutral-600 mb-4">Invite trusted friends or family for a personal video chat. Share a unique link with them.</p>
+                        <button class="w-full bg-sky-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-sky-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                            <i data-lucide="plus-circle" size="20"></i>
+                            <span>Generate Private Link</span>
+                        </button>
+                    </div>
+
+                    <button class="floating-action-button" onclick="showPageInMainApp('counseling-page')">
+                        <i data-lucide="message-circle-question" class="w-7 h-7"></i>
+                        <span class="font-semibold text-sm">Talk to a Volunteer</span>
+                    </button>
+                </div>
+
+                <!-- Page 2: Spiritual Guidance -->
+                <div id="spiritual-guidance-page" class="page-content">
+                    <h1 class="text-3xl font-extrabold text-emerald-800 mb-6 text-center">Spiritual Guidance</h1>
+
+                    <div class="bg-white rounded-xl shadow-lg p-4 mb-6 border border-emerald-100 transform transition-transform duration-300 hover:scale-[1.01]">
+                        <h2 class="text-xl font-bold text-emerald-700 mb-3">Daily Thought from Premanand Maharaj</h2>
+                        <div class="relative w-full h-48 rounded-lg overflow-hidden bg-neutral-200 flex items-center justify-center">
+                            <iframe
+                                class="w-full h-full"
+                                src="https://www.youtube.com/embed/g2g-1uF1-Q0?si=d26n8xQ0751xNqXF"
+                                title="Premanand Maharaj Short"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerpolicy="strict-origin-when-cross-origin"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                        <p class="text-neutral-600 text-sm mt-3 text-right">"No person gives you sorrow; rather, your karma manifests as sorrow through that person."</p>
+                    </div>
+
+                    <div class="flex justify-around bg-neutral-100 rounded-xl p-1 mb-6 shadow-inner" id="spiritual-tabs">
+                        <button
+                            onclick="showSpiritualTab('daily-thought-tab')"
+                            class="tab-button active"
+                            data-tab="daily-thought-tab"
+                        >
+                            Daily Thought
+                        </button>
+                        <button
+                            onclick="showSpiritualTab('mantras-tab')"
+                            class="tab-button"
+                            data-tab="mantras-tab"
+                        >
+                            Mantras
+                        </button>
+                        <button
+                            onclick="showSpiritualTab('peace-stories-tab')"
+                            class="tab-button"
+                            data-tab="peace-stories-tab"
+                        >
+                            Peace Stories
+                        </button>
+                    </div>
+
+                    <div id="daily-thought-tab" class="spiritual-tab-content active">
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/d1fae5/065f46?text=Sadhguru" alt="Sadhguru Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>Mindfulness by Sadhguru</h3>
+                                <p>Sadhguru</p>
+                                <a href="https://www.youtube.com/embed/k9T27r-Q5X8" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Watch Now <i data-lucide="play" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/e0f8fb/0891b2?text=GaurDas" alt="Gaur Gopal Das Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>Dealing with Negativity by Gaur Gopal Das</h3>
+                                <p>Gaur Gopal Das</p>
+                                <a href="https://www.youtube.com/embed/fT-eH5_M81U" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Watch Now <i data-lucide="play" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/d1fae5/065f46?text=BKShivani" alt="BK Shivani Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>Inner Peace by BK Shivani</h3>
+                                <p>BK Shivani</p>
+                                <a href="https://www.youtube.com/embed/H01-E-W1F4E" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Watch Now <i data-lucide="play" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="mantras-tab" class="spiritual-tab-content" style="display: none;">
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/e0f8fb/0891b2?text=Om" alt="Om Chanting Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>Powerful Om Chanting</h3>
+                                <p>Relaxing Sounds</p>
+                                <a href="https://www.youtube.com/embed/aE1K2OaK6Wc" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Listen Now <i data-lucide="headphones" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/d1fae5/065f46?text=Gayatri" alt="Gayatri Mantra Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>Gayatri Mantra for Peace</h3>
+                                <p>Spiritual Harmony</p>
+                                <a href="https://www.youtube.com/embed/S2p0P1k6U2k" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Listen Now <i data-lucide="headphones" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="peace-stories-tab" class="spiritual-tab-content" style="display: none;">
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/d1fae5/065f46?text=Monk" alt="Monk Story Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>The Monk Who Sold His Ferrari Summary</h3>
+                                <p>Book Summary</p>
+                                <a href="https://www.youtube.com/embed/T48i8945xV8" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Read/Listen <i data-lucide="book-marked" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="video-card-item">
+                            <img src="https://placehold.co/120x80/e0f8fb/0891b2?text=ZenStory" alt="Zen Story Thumbnail" class="video-thumbnail">
+                            <div class="video-info">
+                                <h3>Short Zen Stories</h3>
+                                <p>Calm Narratives</p>
+                                <a href="https://www.youtube.com/embed/J7n_S2gqYyM" target="_blank" rel="noopener noreferrer" class="text-sky-600 text-sm flex items-center mt-1 hover:underline">
+                                    Read/Listen <i data-lucide="book-marked" size="16" class="ml-1"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 3: AI Chatbot (Jigyasa) -->
+                <div id="ai-chatbot-page" class="page-content">
+                    <h1 class="text-3xl font-extrabold text-sky-800 mb-6 text-center">AI Chatbot: Jigyasa</h1>
+
+                    <div id="ai-chat-messages" class="flex-grow bg-white rounded-xl shadow-lg p-4 mb-4 border border-neutral-200 overflow-y-auto space-y-3">
+                        <!-- Chat messages will be dynamically added here by JavaScript -->
+                    </div>
+
+                    <!-- Triage options or general chat input -->
+                    <div id="chat-controls" class="flex flex-col">
+                        <div id="triage-options" class="flex flex-wrap justify-center gap-3 p-4">
+                            <!-- Triage buttons will be dynamically added here -->
+                        </div>
+                        <div id="chat-input-area" class="mt-4 flex gap-2 hidden">
+                            <input type="text" id="chat-input" class="flex-grow p-3 border border-neutral-300 rounded-full bg-neutral-50 text-neutral-800 focus:ring-sky-500 focus:border-sky-500 transition duration-200 shadow-sm" placeholder="Type your message...">
+                            <button id="send-button" class="bg-sky-600 text-white p-3 rounded-full hover:bg-sky-700 transition duration-200">
+                                <i data-lucide="send" class="w-6 h-6"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 4: Community Forum -->
+                <div id="community-page" class="page-content">
+                    <h1 class="text-3xl font-extrabold text-emerald-800 mb-6 text-center">Mindcare Community</h1>
+
+                    <h2 class="text-2xl font-bold text-sky-700 mb-4">Explore Topics</h2>
+                    <div class="flex flex-wrap gap-3 mb-6">
+                        <div class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-semibold text-sm shadow-sm transition-all duration-200 hover:bg-emerald-200 cursor-pointer">Anxiety</div>
+                        <div class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-semibold text-sm shadow-sm transition-all duration-200 hover:bg-emerald-200 cursor-pointer">Depression</div>
+                        <div class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-semibold text-sm shadow-sm transition-all duration-200 hover:bg-emerald-200 cursor-pointer">OCD</div>
+                        <div class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-semibold text-sm shadow-sm transition-all duration-200 hover:bg-emerald-200 cursor-pointer">Stress</div>
+                        <div class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-semibold text-sm shadow-sm transition-all duration-200 hover:bg-emerald-200 cursor-pointer">Eating Disorders</div>
+                        <div class="px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full font-semibold text-sm shadow-sm transition-all duration-200 hover:bg-emerald-200 cursor-pointer">Self-Care</div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-6 border border-sky-100">
+                        <h2 class="text-2xl font-bold text-sky-700 mb-4">Share Anonymously</h2>
+                        <textarea
+                            id="community-post-input"
+                            class="w-full p-3 border border-neutral-300 rounded-lg bg-neutral-50 text-neutral-800 focus:ring-sky-500 focus:border-sky-500 transition duration-200 shadow-sm resize-none"
+                            rows="4"
+                            placeholder="What's on your mind? Ask a question or share your experience..."
+                        ></textarea>
+                        <button
+                            onclick="handlePostSubmit()"
+                            class="mt-4 w-full bg-sky-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-sky-700 transition-all duration-300 shadow-md hover:shadow-lg"
+                        >
+                            Post Anonymously
+                        </button>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4">Recent Discussions</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl shadow-md p-4 border border-emerald-100 transition-transform duration-300 hover:scale-[1.01]">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-sky-200 text-sky-800 rounded-full flex items-center justify-center font-bold mr-3">
+                                    MS
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-neutral-800">MindfulSoul</p>
+                                    <p class="text-neutral-500 text-xs">2 hours ago</p>
+                                </div>
+                            </div>
+                            <p class="text-neutral-700 text-sm mb-4">"Feeling much calmer today after a guided meditation. Anyone else find it helpful?"</p>
+                            <div class="flex justify-around text-neutral-500">
+                                <button class="flex items-center space-x-1 hover:text-sky-600 transition duration-200">
+                                    <i data-lucide="thumbs-up" size="18"></i> <span>12 Likes</span>
+                                </button>
+                                <button class="flex items-center space-x-1 hover:text-sky-600 transition duration-200">
+                                    <i data-lucide="message-circle" size="18"></i> <span>3 Comments</span>
+                                </button>
+                                <button class="flex items-center space-x-1 hover:text-sky-600 transition duration-200">
+                                    <i data-lucide="bookmark" size="18"></i> <span>Save</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md p-4 flex items-center space-x-4 border border-sky-100 transition-transform duration-300 hover:scale-[1.01]">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 bg-sky-200 text-sky-800 rounded-full flex items-center justify-center font-bold mr-3">
+                                    HH
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-neutral-800">HopefulHeart</p>
+                                    <p class="text-neutral-500 text-xs">Yesterday</p>
+                                </div>
+                            </div>
+                            <p class="text-neutral-700 text-sm mb-4">"Struggling with stress at work. Any tips for managing burnout?"</p>
+                            <div class="flex justify-around text-neutral-500">
+                                <button class="flex items-center space-x-1 hover:text-sky-600 transition duration-200">
+                                    <i data-lucide="thumbs-up" size="18"></i> <span>8 Likes</span>
+                                </button>
+                                <button class="flex items-center space-x-1 hover:text-sky-600 transition duration-200">
+                                    <i data-lucide="message-circle" size="18"></i> <span>5 Comments</span>
+                                </button>
+                                <button class="flex items-center space-x-1 hover:text-sky-600 transition duration-200">
+                                    <i data-lucide="bookmark" size="18"></i> <span>Save</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Page 5: Professional Counseling -->
+                <div id="counseling-page" class="page-content">
+                    <h1 class="text-3xl font-extrabold text-sky-800 mb-6 text-center">Talk to a Professional</h1>
+
+                    <div class="bg-white rounded-xl shadow-lg p-6 mb-6 border border-emerald-100 transform transition-transform duration-300 hover:scale-[1.01]">
+                        <h2 class="text-2xl font-bold text-emerald-700 mb-4">Book Your Session</h2>
+                        <div class="space-y-4">
+                            <button class="w-full bg-emerald-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-emerald-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                                <i data-lucide="message-square-text" size="20"></i>
+                                <span>Book Online Therapy (₹399–699)</span>
+                            </button>
+                            <button class="w-full bg-sky-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-sky-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                                <i data-lucide="map-pin" size="20"></i> <!-- Icon for offline -->
+                                <span>Book Offline Session (₹599–899)</span> <!-- New offline option -->
+                            </button>
+                            <button class="w-full bg-indigo-600 text-white py-3 rounded-xl font-semibold text-lg hover:bg-indigo-700 transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
+                                <i data-lucide="stethoscope" size="20"></i>
+                                <span>Book Psychiatric Consultation (₹899–1499)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold text-sky-700 mb-4">Meet Our Therapists</h2>
+                    <div class="space-y-4">
+                        <div class="bg-white rounded-xl shadow-md p-4 flex items-center space-x-4 border border-sky-100 transition-transform duration-300 hover:scale-[1.01]">
+                            <img src="https://placehold.co/80x80/d1fae5/065f46?text=MS" alt="Dr. Maya Sharma" class="w-20 h-20 rounded-full object-cover flex-shrink-0" />
+                            <div class="flex-grow">
+                                <h3 class="font-semibold text-neutral-800 text-lg">Dr. Maya Sharma</h3>
+                                <p class="text-neutral-500 text-sm mb-1">Clinical Psychologist</p>
+                                <p class="text-neutral-600 text-xs">Languages: English, Hindi</p>
+                                <button class="mt-2 px-3 py-1 bg-emerald-500 text-white rounded-full text-xs font-semibold hover:bg-emerald-600 transition-all duration-200">
+                                    View Profile <i data-lucide="arrow-right" size="14" class="inline-block ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md p-4 flex items-center space-x-4 border border-sky-100 transition-transform duration-300 hover:scale-[1.01]">
+                            <img src="https://placehold.co/80x80/e0f8fb/0891b2?text=RP" alt="Dr. Rohan Patel" class="w-20 h-20 rounded-full object-cover flex-shrink-0" />
+                            <div class="flex-grow">
+                                <h3 class="font-semibold text-neutral-800 text-lg">Dr. Rohan Patel</h3>
+                                <p class="text-neutral-500 text-sm mb-1">Psychiatrist</p>
+                                <p class="text-neutral-600 text-xs">Languages: English, Gujarati</p>
+                                <button class="mt-2 px-3 py-1 bg-emerald-500 text-white rounded-full text-xs font-semibold hover:bg-emerald-600 transition-all duration-200">
+                                    View Profile <i data-lucide="arrow-right" size="14" class="inline-block ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl shadow-md p-4 flex items-center space-x-4 border border-sky-100 transition-transform duration-300 hover:scale-[1.01]">
+                            <img src="https://placehold.co/80x80/d1fae5/065f46?text=PD" alt="Ms. Priyanka Devi" class="w-20 h-20 rounded-full object-cover flex-shrink-0" />
+                            <div class="flex-grow">
+                                <h3 class="font-semibold text-neutral-800 text-lg">Ms. Priyanka Devi</h3>
+                                <p class="text-neutral-500 text-sm mb-1">Counseling Psychologist</p>
+                                <p class="text-neutral-600 text-xs">Languages: English, Tamil</p>
+                                <button class="mt-2 px-3 py-1 bg-emerald-500 text-white rounded-full text-xs font-semibold hover:bg-emerald-600 transition-all duration-200">
+                                    View Profile <i data-lucide="arrow-right" size="14" class="inline-block ml-1"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-contact-box">
+                        <i data-lucide="alert-circle" class="mr-3 text-red-600" size="24"></i>
+                        <span>If you are in immediate danger or crisis, please call your local emergency number or a crisis hotline:</span>
+                    </div>
+                    <ul class="list-disc list-inside text-red-800 text-sm font-semibold mt-3 pl-4 space-y-1">
+                        <li>India National Emergency: 112</li>
+                        <li>Kiran Mental Health Helpline (India): 1800-599-0019</li>
+                        <li>Local Crisis Support (search for your region)</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold text-emerald-700 mb-4 mt-6">FAQs</h2>
+                    <div class="space-y-3">
+                        <div class="faq-item" onclick="toggleFAQ(this)">
+                            <div class="faq-question">
+                                When to choose therapy vs. psychiatry?
+                                <i data-lucide="chevron-down" class="w-5 h-5 ml-2"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Therapy (counseling psychologist) focuses on talk-based strategies, coping mechanisms, and understanding thought patterns. Psychiatry (psychiatrist) involves medical assessment, diagnosis, and often medication management for more severe conditions. An AI screening (like Jigyasa) provides a preliminary recommendation.
+                            </div>
+                        </div>
+                        <div class="faq-item" onclick="toggleFAQ(this)">
+                            <div class="faq-question">
+                                Are my sessions confidential?
+                                <i data-lucide="chevron-down" class="w-5 h-5 ml-2"></i>
+                            </div>
+                            <div class="faq-answer">
+                                Yes, all sessions are confidential and adhere to strict privacy guidelines. Our professionals operate under ethical codes to ensure your privacy and safety.
+                            </div>
+                        </div>
+                        <div class="faq-item" onclick="toggleFAQ(this)">
+                            <div class="faq-question">
+                                What if I need immediate help?
+                                <i data-lucide="chevron-down" class="w-5 h-5 ml-2"></i>
+                            </div>
+                            <div class="faq-answer">
+                                RE-U Mindcare is not for emergencies. If you are in immediate danger, please contact your local emergency services (e.g., 112 in India) or a crisis hotline immediately.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div> <!-- End content-area -->
+
+            <!-- Bottom Navigation Bar (Appears only when logged in) -->
+            <div class="bottom-nav">
+                <div class="nav-item active" onclick="showPageInMainApp('video-chat-room-page', 'Video Support')">
+                    <i data-lucide="video"></i>
+                    <span>Video Chat</span>
+                </div>
+                <div class="nav-item" onclick="showPageInMainApp('spiritual-guidance-page', 'Spiritual Guidance')">
+                    <i data-lucide="sparkles"></i>
+                    <span>Spiritual</span>
+                </div>
+                <div class="nav-item" onclick="showPageInMainApp('ai-chatbot-page', 'AI Companion')">
+                    <i data-lucide="message-square-text"></i>
+                    <span>AI Chat</span>
+                </div>
+                <div class="nav-item" onclick="showPageInMainApp('community-page', 'Community Forum')">
+                    <i data-lucide="users-round"></i>
+                    <span>Community</span>
+                </div>
+                <div class="nav-item" onclick="showPageInMainApp('counseling-page', 'Professional Support')">
+                    <i data-lucide="heart-pulse"></i>
+                    <span>Counseling</span>
+                </div>
+            </div>
+        </div> <!-- End main-app -->
+
+        <!-- Page 6: User Profile (Separate from main-app for distinct behavior) -->
+        <div id="user-profile-page" class="full-page-section">
+            <div class="main-app-header">
+                <button class="icon-btn" onclick="showPageInMainApp(sessionStorage.getItem('lastPageId') || 'video-chat-room-page', sessionStorage.getItem('lastPageTitle') || 'Video Support')">
+                    <i data-lucide="arrow-left" class="w-6 h-6 text-white"></i>
+                </button>
+                <h2 id="profile-page-title">My Profile</h2>
+                <div class="w-6 h-6"></div> <!-- Spacer for alignment -->
+            </div>
+            <div class="content-area flex flex-col items-center justify-start p-6">
+                <div class="profile-avatar">
+                    <i data-lucide="user-circle" class="w-24 h-24"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold text-neutral-800 mb-4">John Doe</h1>
+                <div class="profile-info space-y-2 mb-8 text-center">
+                    <p>Email: <strong>john.doe@example.com</strong></p>
+                    <p>Membership: <strong id="membership-status">Full Member</strong></p>
+                    <p>Joined: <strong>June 2024</strong></p>
+                </div>
+
+                <div class="w-full max-w-md bg-white rounded-xl shadow-lg p-6 border border-neutral-200">
+                    <h2 class="text-2xl font-bold text-sky-700 mb-4">My Activity</h2>
+                    <ul class="text-left text-neutral-700 space-y-3">
+                        <li><strong class="font-semibold">Recent Booking:</strong> Online Therapy (Dr. Maya Sharma) - 15/06/2025</li>
+                        <li><strong class="font-semibold">AI Chatbot Sessions:</strong> 10 sessions completed</li>
+                        <li><strong class="font-semibold">Community Posts:</strong> 3 posts, 5 comments</li>
+                        <li><strong class="font-semibold">Spiritual Content:</strong> 2 hours watched</li>
+                    </ul>
+                </div>
+
+                <button class="logout-btn" onclick="simulateLogout()">
+                    <i data-lucide="log-out" class="w-5 h-5 inline-block mr-2"></i> Logout
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Global State Simulation (for simplicity, uses sessionStorage for persistence across refresh)
+        // This is not a real authentication system but simulates login/logout states.
+        let isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+        let userType = sessionStorage.getItem('userType') || 'guest'; // 'guest' or 'full' member
+        let currentUserPage = sessionStorage.getItem('currentPageId') || 'video-chat-room-page';
+        let currentUserPageTitle = sessionStorage.getItem('currentPageTitle') || 'Video Support';
+
+        /**
+         * Initializes Lucide icons and sets the initial page view based on login status.
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons(); // Converts data-lucide attributes to SVG icons
+
+            // Bind event listener for the send button on the chat input
+            document.getElementById('send-button').addEventListener('click', handleUserInput);
+            document.getElementById('chat-input').addEventListener('keypress', (event) => {
+                if (event.key === 'Enter') {
+                    handleUserInput();
+                }
+            });
+
+            // Determine which top-level page to display on initial load
+            if (isLoggedIn) {
+                // If logged in, show the main app content
+                document.getElementById('welcome-page').classList.remove('active');
+                document.getElementById('main-app').classList.add('active');
+                // Navigate to the last visited page or default to Video Chat Room
+                showPageInMainApp(currentUserPage, currentUserPageTitle);
+                updateProfileStatus(userType); // Update profile display based on user type
+            } else {
+                // If not logged in, show the welcome/login page
+                document.getElementById('welcome-page').classList.add('active');
+                document.getElementById('main-app').classList.remove('active');
+                document.getElementById('user-profile-page').classList.remove('active');
+            }
+        });
+
+        /**
+         * Navigates between top-level sections of the app (e.g., Welcome, Main App, User Profile).
+         * @param {string} pageId - The ID of the full-page-section to activate.
+         */
+        function showPage(pageId) {
+            // Deactivate all top-level page sections
+            document.querySelectorAll('.full-page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            // Activate the specified top-level page section
+            document.getElementById(pageId).classList.add('active');
+
+            // Set the header title specifically for the User Profile page if navigating there
+            if (pageId === 'user-profile-page') {
+                document.getElementById('profile-page-title').textContent = 'My Profile';
+            }
+            // Ensure main-app's content area scrolls to top if returning to it.
+            const contentArea = document.querySelector(`#${pageId} .content-area`);
+            if (contentArea) {
+                contentArea.scrollTop = 0;
+            }
+        }
+
+        /**
+         * Navigates between individual content pages within the 'main-app' section.
+         * Updates the header title and the active state of the bottom navigation bar.
+         * @param {string} pageId - The ID of the page-content section to activate.
+         * @param {string} title - The title to display in the main app header.
+         */
+        function showPageInMainApp(pageId, title) {
+            // Store the current page and its title in session storage for persistence
+            sessionStorage.setItem('currentPageId', pageId);
+            sessionStorage.setItem('currentPageTitle', title);
+
+            // Update the main app's header title
+            document.getElementById('current-page-title').textContent = title;
+
+            // Hide all individual page content sections within the main app's content area
+            document.querySelectorAll('.content-area .page-content').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show the specified page content section
+            document.getElementById(pageId).classList.add('active');
+
+            // Deactivate 'active' class from all bottom navigation buttons
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Activate the corresponding bottom navigation button
+            const activeNavItem = document.querySelector(`.bottom-nav .nav-item[onclick*="${pageId}"]`);
+            if (activeNavItem) {
+                activeNavItem.classList.add('active');
+            }
+
+            // Scroll the content area to the very top for a clean view of the new section
+            const contentArea = document.querySelector('#main-app .content-area');
+            if (contentArea) {
+                contentArea.scrollTop = 0;
+            }
+
+            // Special handling: If navigating to the AI Chatbot section, start its triage flow
+            if (pageId === 'ai-chatbot-page') {
+                startAIChatbotTriage();
+            } else {
+                // If navigating away from chatbot, reset its state (optional, can be adapted)
+                resetAIChatbotState();
+            }
+        }
+
+        // --- Login/Logout Simulation ---
+        /**
+         * Simulates a user logging in, setting session state and transitioning to the main app.
+         * @param {string} type - 'full' for full member, 'guest' for guest access.
+         */
+        function simulateLogin(type) {
+            isLoggedIn = true;
+            userType = type;
+            sessionStorage.setItem('isLoggedIn', 'true');
+            sessionStorage.setItem('userType', type);
+            // Set a default landing page after login for new sessions
+            sessionStorage.setItem('currentPageId', 'video-chat-room-page');
+            sessionStorage.setItem('currentPageTitle', 'Video Support');
+
+            // Hide welcome page and show main app
+            document.getElementById('welcome-page').classList.remove('active');
+            document.getElementById('main-app').classList.add('active');
+            // Navigate to the initial page within the main app
+            showPageInMainApp('video-chat-room-page', 'Video Support');
+            updateProfileStatus(userType); // Update profile status display
+        }
+
+        /**
+         * Simulates a user logging out, clearing session state and returning to the welcome page.
+         */
+        function simulateLogout() {
+            isLoggedIn = false;
+            userType = 'guest';
+            sessionStorage.clear(); // Clears all simulated session data
+
+            // Hide main app/profile and show welcome page
+            document.getElementById('main-app').classList.remove('active');
+            document.getElementById('user-profile-page').classList.remove('active');
+            document.getElementById('welcome-page').classList.add('active');
+        }
+
+        /**
+         * Updates the membership status displayed on the user profile page.
+         * @param {string} type - 'full' or 'guest'.
+         */
+        function updateProfileStatus(type) {
+            const statusElement = document.getElementById('membership-status');
+            if (statusElement) {
+                statusElement.textContent = type === 'guest' ? 'Guest (Limited Access)' : 'Full Member';
+            }
+        }
+
+
+        // --- Page 2: Spiritual Guidance - Tabs Logic ---
+        /**
+         * Switches between different content tabs within the Spiritual Guidance section.
+         * @param {string} tabId - The ID of the tab content to display.
+         */
+        function showSpiritualTab(tabId) {
+            // Deactivate 'active' class from all tab buttons
+            document.querySelectorAll('#spiritual-tabs .tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            // Activate the clicked button (event.target is the button that was clicked)
+            event.target.classList.add('active');
+
+            // Hide all spiritual tab contents
+            document.querySelectorAll('.spiritual-tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            // Show the active tab content
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector('.content-area').scrollTop = 0; // Scroll to top of section
+        }
+
+
+        // --- Page 3: AI Chatbot (Jigyasa) Logic ---
+        const aiChatMessagesDiv = document.getElementById('ai-chat-messages');
+        const triageOptionsDiv = document.getElementById('triage-options');
+        const chatInputArea = document.getElementById('chat-input-area');
+        const chatInput = document.getElementById('chat-input');
+
+        let currentQuestionIndex = 0;
+        let triageScore = 0;
+        let isHighRisk = false;
+        let aiIsThinking = false; // Flag to prevent multiple typing animations
+        let isChatting = false; // New flag to indicate if in open chat mode
+
+        const triageQuestions = [
+            {
+                question: "Hi there! I'm Jigyasa, your mindful companion. I’ll ask you a few quick questions to better understand your current state of mind. This will take only 2–3 minutes.<br><br>Let's start! How are you feeling overall today?",
+                options: ['Very Low/Sad', 'Neutral', 'Good', 'Very Happy'],
+                scoreValue: { 'Very Low/Sad': 2, 'Neutral': 1, 'Good': 0, 'Very Happy': 0 }
+            },
+            {
+                question: "Do you frequently experience anxiety, restlessness, or panic attacks?",
+                options: ['Yes', 'No'],
+                scoreValue: { 'Yes': 2, 'No': 0 }
+            },
+            {
+                question: "Have you had thoughts of hurting yourself or ending your life?",
+                options: ['Yes', 'No'],
+                isCritical: true
+            },
+            {
+                question: "Do you experience hallucinations (hearing voices or seeing things others don't) or feel people are watching you?",
+                options: ['Yes', 'No'],
+                isCritical: true
+            }
+        ];
+
+        const aiResponses = [
+            "I understand. Tell me more about that.",
+            "That's a valid feeling. How can I help you further?",
+            "Thank you for sharing. What else is on your mind?",
+            "I'm here to listen. Please continue.",
+            "It sounds like you're going through a lot. How can we explore this together?",
+            "I'm still learning, but I'll do my best to support you.",
+            "Sometimes just talking helps. What are you thinking right now?"
+        ];
+
+        /**
+         * Adds a message to the AI Chatbot's display.
+         * @param {string} sender - 'You' or 'Jigyasa' (AI).
+         * @param {string} text - The message content (can include HTML like <br>).
+         * @param {string} [type='text'] - Type of message ('text' or 'disclaimer').
+         * @param {object} [disclaimer=null] - Object containing { icon: string, style: string } for disclaimer messages.
+         */
+        function addChatMessage(sender, text, type = 'text', disclaimer = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', sender === 'You' ? 'user' : 'ai');
+
+            if (type === 'disclaimer' && disclaimer) {
+                // For disclaimer messages, construct specific HTML with icon
+                const iconHtml = disclaimer.icon === 'alert-circle' ?
+                    '<i data-lucide="alert-circle" class="w-5 h-5 flex-shrink-0 text-red-600"></i>' :
+                    '<i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0 text-yellow-600"></i>';
+                messageDiv.innerHTML = `
+                    <div class="disclaimer-card ${disclaimer.style} flex items-start gap-2">
+                        ${iconHtml}
+                        <span class="text-xs flex-grow">${text}</span>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = text; // Use innerHTML to parse line breaks (<br>)
+            }
+
+            aiChatMessagesDiv.appendChild(messageDiv);
+            lucide.createIcons(); // Re-render icons after adding new message
+            aiChatMessagesDiv.scrollTop = aiChatMessagesDiv.scrollHeight; // Scroll to bottom
+        }
+
+        /**
+         * Displays a typing animation for Jigyasa (AI).
+         */
+        async function showAITyping() {
+            if (aiIsThinking) return; // Prevent multiple typing indicators
+            aiIsThinking = true;
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('chat-message', 'ai', 'italic');
+            typingDiv.innerHTML = `Jigyasa is typing<span class="loading-dots"></span>`;
+            aiChatMessagesDiv.appendChild(typingDiv);
+            aiChatMessagesDiv.scrollTop = aiChatMessagesDiv.scrollHeight;
+            lucide.createIcons(); // Ensure dots are rendered
+            await new Promise(resolve => setTimeout(resolve, Math.random() * 1500 + 1000)); // Simulate delay
+            aiChatMessagesDiv.removeChild(typingDiv);
+            aiIsThinking = false;
+        }
+
+        /**
+         * Displays the current triage question from the predefined list.
+         */
+        async function displayTriageQuestion() {
+            triageOptionsDiv.innerHTML = ''; // Clear old options
+            chatInputArea.classList.add('hidden'); // Ensure chat input is hidden during triage
+
+            if (currentQuestionIndex < triageQuestions.length) {
+                const q = triageQuestions[currentQuestionIndex];
+                await showAITyping();
+                addChatMessage('Jigyasa', q.question);
+
+                // Add delay before showing options for better UX
+                setTimeout(() => {
+                    q.options.forEach(option => {
+                        const button = document.createElement('button');
+                        button.classList.add('triage-option-button', 'shadow-sm', 'hover:shadow-md');
+                        button.textContent = option;
+                        // Attach event listener to handle when an option button is clicked
+                        button.onclick = () => handleTriageAnswer(option, q.scoreValue ? q.scoreValue[option] : 0, q.isCritical);
+                        triageOptionsDiv.appendChild(button);
+                    });
+                }, 500);
+            } else {
+                // If all questions asked, classify user and transition to open chat
+                classifyUserMentalState();
+            }
+        }
+
+        /**
+         * Handles a user's answer to a triage question, updates score, and proceeds.
+         * @param {string} answer - The user's selected answer.
+         * @param {number} score - The score associated with the answer.
+         * @param {boolean} isCritical - True if this question is critical for high-risk flagging.
+         */
+        async function handleTriageAnswer(answer, score, isCritical) {
+            addChatMessage('You', answer); // Display user's answer
+            // Visually mark the selected button and disable others
+            Array.from(triageOptionsDiv.children).forEach(btn => {
+                if (btn.textContent === answer) {
+                    btn.classList.add('selected');
+                } else {
+                    btn.disabled = true; // Disable other buttons
+                    btn.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            });
+
+            if (isCritical && answer === 'Yes') {
+                isHighRisk = true; // Flag as high-risk if a critical symptom is affirmed
+            }
+            triageScore += (score || 0); // Accumulate score (default to 0 if score is undefined)
+
+            currentQuestionIndex++; // Move to the next question
+            // Add a slight delay before moving to next question or classification
+            setTimeout(async () => {
+                if (currentQuestionIndex < triageQuestions.length) {
+                    await displayTriageQuestion();
+                } else {
+                    classifyUserMentalState(); // All questions answered, proceed to classification
+                }
+            }, 700); // Give a moment for the selected button state to register
+        }
+
+        /**
+         * Classifies the user's mental state based on triage answers and displays a recommendation.
+         * Transitions to the open chat input.
+         */
+        async function classifyUserMentalState() {
+            await showAITyping(); // Simulate AI thinking before revealing result
+
+            let recommendationText = '';
+            let pricingText = '';
+            let disclaimerContent = "This is a preliminary screening based on your responses. For emergencies, please contact a local mental health service immediately. This AI is not a substitute for professional medical advice.";
+            let disclaimerStyle = "normal"; // Default style for disclaimer card
+            let disclaimerIconType = 'alert-triangle'; // Default icon for disclaimer card
+
+            // Determine classification based on high-risk flag or accumulated score
+            if (isHighRisk) {
+                recommendationText = "You may need Psychiatric help";
+                pricingText = "₹899–1499/consult";
+                disclaimerContent = `
+                    <span class="font-bold">Urgent Attention Needed:</span><br/>
+                    Given your responses, it's crucial to seek immediate medical help. This app cannot provide emergency services. Please contact a local emergency mental health service, a crisis hotline, or visit the nearest emergency room. Your safety is paramount.
+                    <br/><br/><span class="font-bold">Emergency Hotline (India): 112 or your local emergency number.</span>
+                `;
+                disclaimerStyle = "high-risk"; // Apply red warning style for critical cases
+                disclaimerIconType = 'alert-circle';
+            } else if (triageScore >= 3) { // Threshold for recommending Psychiatric help (adjusted to match questions)
+                recommendationText = "You may need Psychiatric help";
+                pricingText = "₹899–1499/consult";
+            } else {
+                recommendationText = "You may benefit from Therapy";
+                pricingText = "₹399–699/session";
+            }
+
+            // Display the recommendation message first
+            addChatMessage('Jigyasa', `Thank you for answering. Based on your responses, here's our preliminary recommendation: <br/><br/>
+                <span class="${recommendationText.includes('Psychiatric') ? 'text-red-600' : 'text-emerald-600'} font-semibold">${recommendationText}</span><br/>
+                <span class="text-neutral-700">Pricing: ${pricingText}</span>`
+            );
+
+            // Display the disclaimer as a separate message with its type and icon details
+            addChatMessage('Jigyasa', disclaimerContent, 'disclaimer', { icon: disclaimerIconType, style: disclaimerStyle });
+
+            // Transition to open chat mode
+            setTimeout(async () => {
+                await showAITyping();
+                addChatMessage('Jigyasa', "Now that we have a preliminary understanding, feel free to ask me anything or share more about what's on your mind. I'm here to listen.");
+                triageOptionsDiv.innerHTML = ''; // Clear triage options
+                chatInputArea.classList.remove('hidden'); // Show the chat input
+                chatInput.focus(); // Focus on the input field
+                isChatting = true;
+            }, 1500); // Delay before showing final message and chat input
+        }
+
+        /**
+         * Handles user input in the open chat mode.
+         */
+        async function handleUserInput() {
+            const userText = chatInput.value.trim();
+            if (userText === "") return;
+
+            addChatMessage('You', userText);
+            chatInput.value = ''; // Clear input immediately
+
+            await showAITyping();
+            const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
+            addChatMessage('Jigyasa', randomResponse);
+        }
+
+        /**
+         * Initializes or restarts the AI Chatbot's triage flow.
+         * This function is called when the AI Chatbot page becomes active.
+         */
+        function startAIChatbotTriage() {
+            aiChatMessagesDiv.innerHTML = ''; // Clear previous chat messages
+            triageOptionsDiv.innerHTML = ''; // Clear old option buttons
+            chatInputArea.classList.add('hidden'); // Ensure chat input is hidden
+            currentQuestionIndex = 0; // Reset question index
+            triageScore = 0; // Reset score
+            isHighRisk = false; // Reset high-risk flag
+            isChatting = false; // Reset chat mode
+            displayTriageQuestion(); // Start the first question
+        }
+
+        /**
+         * Resets the AI Chatbot state when navigating away from the page.
+         * (Optional, can be adjusted based on desired behavior)
+         */
+        function resetAIChatbotState() {
+            currentQuestionIndex = 0;
+            triageScore = 0;
+            isHighRisk = false;
+            isChatting = false;
+            aiIsThinking = false;
+            // No need to clear chat messages or hide input here as page is already hidden.
+        }
+
+        // --- Page 4: Community Forum - Post Submission Logic (Static) ---
+        /**
+         * Handles the submission of a new community post (simulated).
+         */
+        function handlePostSubmit() {
+            const postInput = document.getElementById('community-post-input');
+            const postText = postInput.value.trim();
+            if (postText) {
+                alert("Post submitted! (This is a static demo, post will not be saved.)");
+                postInput.value = ''; // Clear the input field
+            } else {
+                alert("Please type something before posting.");
+            }
+        }
+
+        // --- Page 5: Professional Counseling - FAQ Toggle Logic ---
+        /**
+         * Toggles the visibility of an FAQ answer and rotates its icon.
+         * @param {HTMLElement} element - The FAQ item (parent div) that was clicked.
+         */
+        function toggleFAQ(element) {
+            element.classList.toggle('open'); // Toggles a class for styling (e.g., changing background)
+            const icon = element.querySelector('i[data-lucide]'); // Selects the Lucide icon element
+            if (icon) { // Check if icon exists before attempting to change its attribute
+                if (element.classList.contains('open')) {
+                    icon.setAttribute('data-lucide', 'chevron-up'); // Change icon to 'up' when open
+                } else {
+                    icon.setAttribute('data-lucide', 'chevron-down'); // Change icon to 'down' when closed
+                }
+                lucide.createIcons(); // Re-render the Lucide icon to reflect the change
+            }
+        }
+    </script>
+</body>
+</html>
